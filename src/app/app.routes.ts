@@ -12,6 +12,26 @@ export const routes : Routes = [
   },
   { path : '', redirectTo : '/home', pathMatch : 'full' },
   {
+    path          : 'home/transactions',
+    loadComponent : () => import('./pages/transactions/transactions.component').then(m => m.TransactionsComponent),
+  },
+  { path : '', redirectTo : '/home/transactions', pathMatch : 'full' },
+  {
+    path          : 'chart',
+    loadComponent : () => import('./pages/chart/chart.component').then(m => m.ChartComponent),
+  },
+  { path : '', redirectTo : '/chart', pathMatch : 'full' },
+  {
+    path          : 'wallet',
+    loadComponent : () => import('./pages/wallet/wallet.component').then(m => m.WalletComponent),
+  },
+  { path : '', redirectTo : '/home', pathMatch : 'full' },
+  {
+    path          : 'user',
+    loadComponent : () => import('./pages/user/user.component').then(m => m.UserComponent),
+  },
+  { path : '', redirectTo : '/user', pathMatch : 'full' },
+  {
     path          : '**',
     loadComponent : () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent),
   },

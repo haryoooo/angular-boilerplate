@@ -1,0 +1,46 @@
+<app-page-layout>
+  <app-progress-bar *ngIf="storeService.isLoading()"></app-progress-bar>
+
+  <ng-container *ngIf="!storeService.isLoading()">
+
+    <!-- Header Container -->
+    <div class="header-container">
+      <img
+        class="header"
+        src="../../../assets/img/project/header-bg.png"
+        alt="bg-header"
+      />
+      <div class="header__between" (click)="this.router.navigateByUrl('home', { replaceUrl: true });">
+        <div class="cursor-pointer">
+          <img src="../../../assets/img/project/chevron-left.png" />
+        </div>
+        <div>
+          <h4 class="text-white">Add Expense</h4>
+        </div>
+        <div class="cursor-pointer">
+          <img src="../../../assets/img/project/more.png" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Expense -->
+    <div class="content-container">
+      <div>
+        <h5 class="text-label">NAME</h5>
+        <input class="input-content" type="text" alt="name" />
+      </div>
+      <div>
+        <h5 class="text-label">AMOUNT</h5>
+        <input class="input-content" type="text" alt="amount" />
+      </div>
+      <div>
+        <h5 class="text-label">DATE</h5>
+        <input class="input-content" type="text" alt="date" />
+      </div>
+
+      <div class="btn-submit">
+        Submit
+      </div>
+    </div>
+  </ng-container>
+</app-page-layout>

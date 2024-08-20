@@ -1,5 +1,24 @@
 <!-- NOTE Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class="nav-container" *ngIf="isShowed()">
+  <div *ngFor="let item of navItems"> <!-- Corrected 'of' instead of 'from' -->
+    <img 
+      [src]="isActive(item) ? ngOnActive(item).src : item.src" 
+      [alt]="item.alt" 
+      (click)="navigateTo(item.alt)" 
+      style="cursor: pointer;" 
+    />
+  </div>
+</div>
+
+<div class="nav-add-activity-btn" *ngIf="isActive({ alt: 'home' })" (click)="navigateTo('home/transactions')" >
+  <img
+    src="../../../../../assets/img/project/navigation/add-btn.png" 
+    alt="add-activity" 
+    style="cursor: pointer;"  
+  />
+</div>
+
+<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" [routerLink]="['/dashboard']">
       <img src="./assets/img/project/logo.svg" [alt]="appName + ' Logo'" class="img-fluid me-2"/>
@@ -21,7 +40,7 @@
             {{ 'USER' | translate }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu aria-labelledby="navbarDropdown">
-            <!-- <li><a class="dropdown-item" [routerLink]="['/user']" [routerLinkActive]="['active']">{{ 'MY_ACCOUNT' | translate }}</a></li> -->
+            <li><a class="dropdown-item" [routerLink]="['/user']" [routerLinkActive]="['active']">{{ 'MY_ACCOUNT' | translate }}</a></li>
             <li><a class="dropdown-item cursor-pointer" (click)="onClickLogout()">{{ 'LOGOUT' | translate }}</a></li>
           </ul>
         </li>
@@ -29,7 +48,7 @@
       </ul>
     </div>
   </div>
-</nav>
+</nav> -->
 
 <!-- NOTE Content -->
 <ng-content></ng-content>
