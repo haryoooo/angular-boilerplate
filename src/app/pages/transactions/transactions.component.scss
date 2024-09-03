@@ -24,14 +24,19 @@
   max-width: 1200px;
 }
 
+.amount-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .content-container {
   display: flex;
   line-height: 24px;
   flex-direction: column;
-
+  gap: 10px;
   position: absolute;
   background-color: white;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
   margin: auto;
@@ -48,14 +53,57 @@
   color: 666666;
   font-size: 12px;
   margin: 20px 0px 20px 0px;
+  color: black;
+}
+
+.currency-symbol {
+  position: absolute;
+  left: 10px;
+  font-size: 16px;
+  color: black;
+}
+
+.clear-button {
+  position: absolute;
+  right: 10px;
+  font-size: 12px;
+  cursor: pointer;
+  color: black
 }
 
 .input-content {
   min-height: 40px;
   width: 100%;
   outline-color: #438883;
-  border: 1px solid #DDDDDD;
+  border: 1px solid #dddddd;
   border-radius: 8px;
+  padding: 10px;
+  color: black;
+}
+
+.input-content-amount {
+  min-height: 40px;
+  width: 100%;
+  outline-color: #438883;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  padding: 10px 40px;
+  color: black;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: black;
+}
+
+.input-content:focus,
+.input-content-amount:focus,
+.input-wrapper:focus,
+.currency-symbol:focus,
+.clear-button:hover {
+  color: #438883;
 }
 
 .btn-submit {
@@ -66,10 +114,10 @@
   text-align: center;
   color: white;
   border: 1px solid transparent;
-  background-color: #3E7C78;
+  background-color: #3e7c78;
   border-radius: 16px;
 
-  box-shadow: #3E7C78 0px 2px 6px;
+  box-shadow: #3e7c78 0px 2px 6px;
 }
 
 .btn-submit:hover {

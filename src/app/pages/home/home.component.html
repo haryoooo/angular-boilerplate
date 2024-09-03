@@ -1,13 +1,72 @@
 <app-page-layout>
-  <div class="container my-3">
-
+  <div>
     <app-progress-bar *ngIf="storeService.isLoading()"></app-progress-bar>
 
     <ng-container *ngIf="!storeService.isLoading()">
-      <div class="text-center">
-        Let's start the project!
+      <!-- Header Container -->
+      <div class="header-container">
+        <img
+          class="header"
+          src="../../../assets/img/project/header-bg.png"
+          alt="bg-header"
+        />
+        <div class="header__between">
+          <div class="text-white">
+            <h6 class="font-weight-400">Good Afternon,</h6>
+            <h4>Haryo Novianto</h4>
+          </div>
+        </div>
+
+        <div class="card-balance">
+          <div class="card-balance-container">
+            <div>
+              <div>
+                Total Balance
+                <span class="cursor-pointer">
+                  <img src="../../../assets/img/project/chevron-down.png" />
+                </span>
+              </div>
+              <h4>Rp 2.500.000</h4>
+            </div>
+
+            <div>
+              <div class="cursor-pointer">
+                <img src="../../../assets/img/project/more.png" />
+              </div>
+            </div>
+          </div>
+
+          <div class="card-balance-container">
+            <div>
+              <div class="container-income-outcome">
+                <div class="container-text">
+                  <div>
+                    <img src="../../../assets/img/project/arrow-down.png" />
+                  </div>
+                  <div>
+                    <h6>Income</h6>
+                  </div>
+                </div>
+                <h5>Rp 2.700.000</h5>
+              </div>
+            </div>
+
+            <div>
+              <div class="container-income-outcome">
+                <div class="container-text">
+                  <div>
+                    <img src="../../../assets/img/project/arrow-up.png" />
+                  </div>
+                  <div>
+                    <h6>Expenses</h6>
+                  </div>
+                </div>
+                <h5>Rp 200.000</h5>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </ng-container>
-
   </div>
 </app-page-layout>

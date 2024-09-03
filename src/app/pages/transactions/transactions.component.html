@@ -10,8 +10,9 @@
         src="../../../assets/img/project/header-bg.png"
         alt="bg-header"
       />
-      <div class="header__between" (click)="this.router.navigateByUrl('home', { replaceUrl: true });">
-        <div class="cursor-pointer">
+      <div class="header__between">
+        <div class="cursor-pointer" 
+             (click)="this.router.navigateByUrl('home', { replaceUrl: true })">
           <img src="../../../assets/img/project/chevron-left.png" />
         </div>
         <div>
@@ -27,18 +28,22 @@
     <div class="content-container">
       <div>
         <h5 class="text-label">NAME</h5>
-        <input class="input-content" type="text" alt="name" />
+        <input class="input-content" type="text" alt="name" [value]="stateAdd.name" (input)="updateName($event)" />
       </div>
-      <div>
+      <div class="amount-container">
         <h5 class="text-label">AMOUNT</h5>
-        <input class="input-content" type="text" alt="amount" />
+        <div class="input-wrapper">
+          <span class="currency-symbol">Rp.</span>
+          <input class="input-content-amount" type="text" alt="amount" [value]="stateAdd.amount" (input)="updateAmount($event)" />
+          <span class="clear-button" (click)="clearAmount()">Clear</span>
+        </div>
       </div>
       <div>
         <h5 class="text-label">DATE</h5>
-        <input class="input-content" type="text" alt="date" />
+        <input class="input-content" type="date" alt="date" [value]="stateAdd.date | date:'yyyy-MM-dd'" (input)="updateDate($event)"  />
       </div>
 
-      <div class="btn-submit">
+      <div class="btn-submit" (click)="submitTransaction()">
         Submit
       </div>
     </div>

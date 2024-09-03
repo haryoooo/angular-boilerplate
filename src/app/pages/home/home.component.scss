@@ -1,0 +1,116 @@
+.header-container {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+}
+
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.header__between {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  padding: 10px;
+  max-width: 1200px;
+}
+
+.card-balance {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  width: 90%;
+  max-width: 450px;
+  font-weight: 700;
+  color: white;
+  line-height: 1.5;
+  padding: 20px;
+  font-size: 16px;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  background-color: #438883;
+}
+
+.card-balance-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-balance-container h4 {
+  font-size: 1.875rem;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.container-income-outcome {
+  margin: 20px 0px;
+}
+
+.container-text {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  color: #d0e5e4;
+  font-size: 16px;
+}
+
+.container-text img {
+  margin: 8px 5px 0px 0px;
+}
+
+.container-text h6 {
+  margin-top: 10px;
+}
+
+.container-income-outcome h5 {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.font-weight-400 {
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  .card-balance {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: none;
+  }
+
+  .container-income-outcome {
+    margin: 10px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .header__between {
+    width: 95%;
+  }
+
+  .card-balance {
+    font-size: 14px;
+  }
+
+  .card-balance-container h4 {
+    font-size: 1.5rem;
+  }
+
+  .container-income-outcome h5 {
+    font-size: 1rem;
+  }
+}
