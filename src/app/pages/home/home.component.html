@@ -67,6 +67,37 @@
           </div>
         </div>
       </div>
+
+      <div class="transactions-container mt-20">
+        <div class="transactions-all">Transactions History</div>
+        <div class="transactions-see-all">See All</div>
+      </div>
+
+      <div class="transactions-wrapper">
+        <div
+          *ngFor="let transaction of transactions"
+          class="transactions-container"
+        >
+          <div class="transactions-all">
+            <div class="transactions-text">
+              <h5>{{ transaction.desc }}</h5>
+              <h6>
+                {{ moment(transaction.date, "DD-MM-YYYY").format("LLLL") }}
+              </h6>
+            </div>
+          </div>
+          <div
+            class="transactions-all"
+            [ngClass]="{
+              'text-danger': transaction.type === 'expense',
+              'text-success': transaction.type === 'income'
+            }"
+          >
+            {{ transaction.type === "expense" ? "-" : "+" }} Rp
+            {{ getFormattedAmount(transaction.amount) }}
+          </div>
+        </div>
+      </div>
     </ng-container>
   </div>
 </app-page-layout>

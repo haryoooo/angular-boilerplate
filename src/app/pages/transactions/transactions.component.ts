@@ -13,6 +13,8 @@ import { initialState, TransactionService } from '@services/transaction.service'
 import { ProgressBarComponent } from '@blocks/progress-bar/progress-bar.component';
 import { PageLayoutComponent } from '@layouts/page-layout/page-layout.component';
 import { transactions } from 'src/app/example/transactions';
+import * as moment from 'moment';
+import { formatMoney, parseMoney } from '@helpers/moneyFormatter.helper';
 
 @Component({
   selector: 'app-transactions',
@@ -21,21 +23,27 @@ import { transactions } from 'src/app/example/transactions';
   standalone: true,
   imports: [PageLayoutComponent, NgIf, ProgressBarComponent, CommonModule],
 })
+
 export class TransactionsComponent implements OnInit {
+  public transactions = transactions;
+  public moment = moment;
+
+  public stateAdd = this.stateService.getStateAdd();
+  public stateTransaction = this.stateService.getStateTransactions();
+
   constructor(
     public storeService: StoreService,
     public router: Router,
     public stateService: TransactionService
   ) {
     this.stateService.stateAdd$.subscribe((state) => {
-      console.log('StateAdd updated:', state);
-
       this.stateAdd = state;
     });
+
+    this.stateService.stateTransactions$.subscribe((state) => {
+      this.stateTransaction = state;
+    });
   }
-
-  stateAdd = this.stateService.getStateAdd();
-
   // -------------------------------------------------------------------------------
   // NOTE Init ---------------------------------------------------------------------
   // -------------------------------------------------------------------------------
@@ -46,46 +54,42 @@ export class TransactionsComponent implements OnInit {
     }, 2000);
   }
 
-  updateName(value: Event): void {
-    const input = value.target as HTMLInputElement;
-    const nameValue = input.value;
+  updateName(event: Event): void {
+    this.stateAdd.desc = (event.target as HTMLInputElement).value;
+  }
 
-    this.stateService.setStateAdd({ name: nameValue });
+  updateType(selectedtype: string): void {
+    this.stateAdd.type = selectedtype;
   }
 
   updateAmount(event: Event): void {
     const input = event.target as HTMLInputElement;
-    const amountValue = parseFloat(input.value);
-    this.stateService.setStateAdd({
-      amount: isNaN(amountValue) ? 0 : amountValue,
-    });
+    this.stateAdd.amount = parseMoney(input.value);
   }
 
   updateDate(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const dateValue = input.value ? new Date(input.value) : new Date();
-    this.stateService.setStateAdd({ date: dateValue });
+    this.stateAdd.date = new Date((event.target as HTMLInputElement).value);
   }
 
   clearAmount(): void {
-    this.stateService.setStateAdd({ amount: 0 });
+    this.stateAdd.amount = 0;
+  }
+
+  getFormattedAmount(): string {
+    return formatMoney(this.stateAdd.amount);
   }
 
   submitTransaction(): void {
-    const value = [
-      ...transactions,
-      {
-        id: transactions.length + 1,
-        type: 'expense',
-        desc: this.stateAdd.name,
-        ...this.stateAdd,
-      },
-    ];
+    const newTransaction = {
+      id: this.stateTransaction.length + 1,
+      type: this.stateAdd.type,
+      date: this.stateAdd.date ?? new Date(),
+      desc: this.stateAdd.desc,
+      amount: this.stateAdd.amount,
+    };
 
-    this.stateService.setStateAdd(initialState)
-
-    console.log(value);
-
+    this.stateService.setLatestTransactions(newTransaction)
+    this.stateService.resetStateAdd();
     this.router.navigate(['home']);
   }
   // -------------------------------------------------------------------------------

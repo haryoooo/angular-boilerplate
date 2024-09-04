@@ -36,7 +36,7 @@
   gap: 10px;
   position: absolute;
   background-color: white;
-  top: 55%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
   margin: auto;
@@ -104,6 +104,30 @@
 .currency-symbol:focus,
 .clear-button:hover {
   color: #438883;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+}
+
+.radio-input {
+  width: 12px; /* Adjust size as needed */
+  height: 12px; /* Adjust size as needed */
+  margin-right: 0px; /* Space between radio and label text */
+}
+
+.radio-input:focus {
+  outline: #3e7c78; /* Optional: remove focus outline for cleaner look */
+}
+
+.option-type {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.ml-2 {
+  margin-left: 20px;
 }
 
 .btn-submit {

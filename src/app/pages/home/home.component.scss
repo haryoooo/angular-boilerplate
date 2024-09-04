@@ -24,13 +24,13 @@
   justify-content: space-between;
   align-items: center;
   width: 90%;
-  padding: 10px;
+  padding: 10px 0px;
   max-width: 1200px;
 }
 
 .card-balance {
   position: absolute;
-  top: 50%;
+  top: 45%;
   left: 5%;
   width: 90%;
   max-width: 450px;
@@ -56,7 +56,7 @@
 }
 
 .container-income-outcome {
-  margin: 20px 0px;
+  margin: 10px 0px;
 }
 
 .container-text {
@@ -80,11 +80,64 @@
   font-weight: bold;
 }
 
+.transactions-wrapper {
+  height: 30vh; /* Set the height to 50% of the viewport height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  width: 100%; /* Ensure it takes full width */
+}
+
+.transactions-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.transactions-all {
+  font-weight: 600;
+  font-size: 18px;
+  gap: 20px;
+
+  .transactions-text {
+    h5 {
+      font-size: 16px;
+    }
+
+    h6 {
+      font-size: 13px;
+      font-weight: 300;
+    }
+  }
+}
+
+.transactions-see-all {
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.text-danger {
+  color: red;
+  font-size: 18px;
+}
+
+.text-success {
+  color: green;
+  font-size: 18px;
+}
+
+.mt-20 {
+  margin-top: 20%;
+}
+
 .font-weight-400 {
   font-weight: 400;
 }
 
 @media (max-width: 768px) {
+  .transactions-wrapper {
+    height: 38vh; /* Set the height to 40% of the viewport height */
+  }
+
   .card-balance {
     left: 50%;
     transform: translateX(-50%);
@@ -98,6 +151,10 @@
 }
 
 @media (max-width: 480px) {
+  .transactions-wrapper {
+    height: 38vh; /* Set the height to 40% of the viewport height */
+  }
+
   .header__between {
     width: 95%;
   }
