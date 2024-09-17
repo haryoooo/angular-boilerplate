@@ -7,7 +7,10 @@ import { Router } from '@angular/router';
 
 // Services
 import { StoreService } from '@services/store.service';
-import { initialState, TransactionService } from '@services/transaction.service';
+import {
+  initialState,
+  TransactionService,
+} from '@services/transaction.service';
 
 // Components
 import { ProgressBarComponent } from '@blocks/progress-bar/progress-bar.component';
@@ -15,6 +18,7 @@ import { PageLayoutComponent } from '@layouts/page-layout/page-layout.component'
 import { transactions } from 'src/app/example/transactions';
 import * as moment from 'moment';
 import { formatMoney, parseMoney } from '@helpers/moneyFormatter.helper';
+import { FirebaseService } from '@services/firebase.service';
 
 @Component({
   selector: 'app-transactions',
@@ -23,25 +27,21 @@ import { formatMoney, parseMoney } from '@helpers/moneyFormatter.helper';
   standalone: true,
   imports: [PageLayoutComponent, NgIf, ProgressBarComponent, CommonModule],
 })
-
 export class TransactionsComponent implements OnInit {
   public transactions = transactions;
   public moment = moment;
 
   public stateAdd = this.stateService.getStateAdd();
-  public stateTransaction = this.stateService.getStateTransactions();
+  public stateTransaction: any[] = [];
 
   constructor(
     public storeService: StoreService,
     public router: Router,
-    public stateService: TransactionService
+    public stateService: TransactionService,
+    public firebaseService: FirebaseService
   ) {
     this.stateService.stateAdd$.subscribe((state) => {
       this.stateAdd = state;
-    });
-
-    this.stateService.stateTransactions$.subscribe((state) => {
-      this.stateTransaction = state;
     });
   }
   // -------------------------------------------------------------------------------
@@ -49,11 +49,22 @@ export class TransactionsComponent implements OnInit {
   // -------------------------------------------------------------------------------
 
   public ngOnInit(): void {
+    this.getDataTransaction();
+
     setTimeout((_) => {
       this.storeService.isLoading.set(false);
     }, 2000);
   }
 
+  async getDataTransaction() {
+    try {
+      this.stateTransaction = await this.firebaseService.getCollectionData(
+        'budget'
+      );
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
   updateName(event: Event): void {
     this.stateAdd.desc = (event.target as HTMLInputElement).value;
   }
@@ -83,12 +94,12 @@ export class TransactionsComponent implements OnInit {
     const newTransaction = {
       id: this.stateTransaction.length + 1,
       type: this.stateAdd.type,
-      date: this.stateAdd.date ?? new Date(),
+      date: moment(this.stateAdd.date).format('DD-MM-YYYY'),
       desc: this.stateAdd.desc,
       amount: this.stateAdd.amount,
     };
 
-    this.stateService.setLatestTransactions(newTransaction)
+    this.stateService.setLatestTransactions(newTransaction);
     this.stateService.resetStateAdd();
     this.router.navigate(['home']);
   }

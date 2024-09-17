@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import * as moment from 'moment';
 import { transactions } from 'src/app/example/transactions';
+import { FirebaseService } from './firebase.service';
 
-interface AddState {
+export interface AddState {
   desc: string;
   amount: number;
   date: any;
@@ -14,19 +15,19 @@ export const initialState: AddState = {
   desc: '',
   amount: 0,
   date: new Date(),
-  type: 'expense'
+  type: 'expense',
 };
 
 @Injectable({
-  providedIn: 'root',  // This makes the service available application-wide
+  providedIn: 'root', // This makes the service available application-wide
 })
 export class TransactionService {
-  public transactions = transactions
+  public transactions = transactions;
   private initialState: AddState = {
     type: 'expense', // default value
     date: moment().format('DD-MMM-YYYY'), // default value, current date
     desc: '',
-    amount: 0
+    amount: 0,
   };
 
   // Initial states with appropriate data types
@@ -37,9 +38,8 @@ export class TransactionService {
   stateAdd$ = this._stateAdd.asObservable();
   stateTransactions$ = this._stateTransactions.asObservable();
 
-  constructor() {}
+  constructor(private firebaseService: FirebaseService) {}
 
-  // Method to update the state partially or fully
   setStateAdd(updatedValues: Partial<AddState>): void {
     const currentState = this._stateAdd.value;
     const newState = { ...currentState, ...updatedValues };
@@ -50,22 +50,15 @@ export class TransactionService {
     this._stateAdd.next(this.initialState);
   }
 
-  // Method to get the current state
   getStateAdd(): AddState {
     return this._stateAdd.value;
   }
 
-  // Method to get the current state
   getStateTransactions(): any {
     return this._stateTransactions.value;
   }
 
   setLatestTransactions(updatedState: AddState): any {
-    const currentState = this._stateTransactions.value;
-    const newState = [ ...currentState, updatedState ];
-
-    console.log(newState);
-
-    this._stateTransactions.next(newState);
+    this.firebaseService.addData('budget', updatedState);
   }
 }

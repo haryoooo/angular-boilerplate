@@ -28,6 +28,8 @@
     "angular-svg-icon": "^18.0.0",
     "axios": "^1.6.7",
     "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.4",
+    "firebase": "^10.13.1",
     "moment": "^2.30.1",
     "rxjs": "~7.8.1",
     "tslib": "^2.3.0",

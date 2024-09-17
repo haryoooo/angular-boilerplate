@@ -26,7 +26,7 @@
                   <img src="../../../assets/img/project/chevron-down.png" />
                 </span>
               </div>
-              <h4>Rp 2.500.000</h4>
+              <h4>Rp {{ calculateTransactions("balance") }}</h4>
             </div>
 
             <div>
@@ -47,7 +47,7 @@
                     <h6>Income</h6>
                   </div>
                 </div>
-                <h5>Rp 2.700.000</h5>
+                <h5>Rp {{ calculateTransactions("income") }}</h5>
               </div>
             </div>
 
@@ -61,7 +61,7 @@
                     <h6>Expenses</h6>
                   </div>
                 </div>
-                <h5>Rp 200.000</h5>
+                <h5>Rp {{ calculateTransactions("expense") }}</h5>
               </div>
             </div>
           </div>
@@ -75,7 +75,7 @@
 
       <div class="transactions-wrapper">
         <div
-          *ngFor="let transaction of transactions"
+          *ngFor="let transaction of allTransactions"
           class="transactions-container"
         >
           <div class="transactions-all">
