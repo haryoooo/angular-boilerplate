@@ -22,12 +22,6 @@ export const environment = {
   envName: EnvName.LOCAL,
   defaultLanguage: 'en',
   apiBaseUrl: baseUrl,
-  apiKey: 'AIzaSyDoSPMV9RkYmpXsQ7If3PmkFemjk16UQkQ',
-  authDomain: 'budget-tracker-app-2af6f.firebaseapp.com',
-  projectId: 'budget-tracker-app-2af6f',
-  storageBucket: 'budget-tracker-app-2af6f.appspot.com',
-  messagingId: '810222244862',
-  appId: '1:810222244862:web:b364b7dd8b2e35dbf4e6af',
 };
 
 /*
