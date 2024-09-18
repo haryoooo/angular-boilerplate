@@ -86,10 +86,18 @@
   width: 100%; /* Ensure it takes full width */
 }
 
+.transactions-desc-container,
 .transactions-container {
   display: flex;
   justify-content: space-between;
   padding: 10px 20px;
+}
+
+.transactions-container:hover {
+  background-color: #f1f7f7;
+  padding: 15px;
+  border-radius: 16px;
+  cursor: pointer;
 }
 
 .transactions-all {

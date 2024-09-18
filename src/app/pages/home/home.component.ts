@@ -2,6 +2,7 @@
 import { NgFor, NgIf, NgClass, CurrencyPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 // Services
 import { TransactionService } from '@services/transaction.service';
@@ -10,7 +11,6 @@ import { StoreService } from '@services/store.service';
 // Components
 import { ProgressBarComponent } from '@blocks/progress-bar/progress-bar.component';
 import { PageLayoutComponent } from '@layouts/page-layout/page-layout.component';
-import { transactions } from 'src/app/example/transactions';
 
 import * as moment from 'moment';
 import { formatMoney } from '@helpers/moneyFormatter.helper';
@@ -32,7 +32,8 @@ export class HomeComponent implements OnInit {
   constructor(
     public storeService: StoreService,
     public stateService: TransactionService,
-    public firebaseService: FirebaseService
+    public firebaseService: FirebaseService,
+    private router: Router
   ) {}
   // -------------------------------------------------------------------------------
   // NOTE Init ---------------------------------------------------------------------
@@ -40,7 +41,7 @@ export class HomeComponent implements OnInit {
 
   public ngOnInit(): void {
     this.getAllTransactions();
-    
+
     setTimeout((_) => {
       this.storeService.isLoading.set(false);
     }, 2000);
@@ -63,9 +64,15 @@ export class HomeComponent implements OnInit {
   }
 
   calculateTransactions(type: string) {
-    const result = calculateTransaction(this.allTransactions, type)
+    const result = calculateTransaction(this.allTransactions, type);
 
-    return formatMoney(result)
+    return formatMoney(result);
+  }
+
+  navigateTo(url: string, id: number): void {
+    this.router.navigate([url], {
+      queryParams: { id: id },
+    });
   }
 
   // -------------------------------------------------------------------------------

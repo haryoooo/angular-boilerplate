@@ -2,8 +2,6 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { RouterLink } from '@angular/router';
-import { RouterLinkActive } from '@angular/router';
 
 // External modules
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
@@ -22,9 +20,7 @@ import { NgFor, NgIf } from '@angular/common';
   styleUrls: ['./layout-header.component.scss'],
   standalone: true,
   imports: [
-    RouterLink,
     NgbCollapse,
-    RouterLinkActive,
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,

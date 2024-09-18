@@ -68,7 +68,7 @@
         </div>
       </div>
 
-      <div class="transactions-container mt-20">
+      <div class="transactions-desc-container mt-20">
         <div class="transactions-all">Transactions History</div>
         <div class="transactions-see-all">See All</div>
       </div>
@@ -77,6 +77,7 @@
         <div
           *ngFor="let transaction of allTransactions"
           class="transactions-container"
+          (click)="navigateTo('home/transactions', transaction.id)"
         >
           <div class="transactions-all">
             <div class="transactions-text">
