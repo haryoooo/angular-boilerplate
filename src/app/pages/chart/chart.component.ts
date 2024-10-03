@@ -1,12 +1,21 @@
 // Angular modules
 import { NgClass, NgFor, NgIf } from '@angular/common';
-import { Component, ViewChild, ElementRef, AfterViewInit, OnInit } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+  OnInit,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 
 // Services
 import { StoreService } from '@services/store.service';
-import { TransactionService } from '@services/transaction.service';
+import {
+  OptionsDropdown,
+  TransactionService,
+} from '@services/transaction.service';
 import { FirebaseService } from '@services/firebase.service';
 
 // Components
@@ -16,10 +25,10 @@ import Chart from 'chart.js/auto'; // Import Chart.js
 import { formatMoney } from '@helpers/moneyFormatter.helper';
 import * as moment from 'moment';
 
-interface City {
-  name: string;
-  code: string;
-}
+const initialStateOptions = [
+  { name: 'Expense', code: 'exp' },
+  { name: 'Income', code: 'inc' },
+];
 
 @Component({
   selector: 'app-chart',
@@ -38,12 +47,12 @@ interface City {
 })
 export class ChartComponent implements OnInit, AfterViewInit {
   lineChart: any;
-  cities: City[] | undefined;
+  options: OptionsDropdown[] | undefined;
 
-  selectedCity: City | undefined;
-
+  selectedOptions = this.stateService.getStateDropdown();
   transactions = this.stateService.getStateTransactions();
   allTransactions: any[] = [];
+
   moment = moment;
 
   // Use ViewChild to grab the canvas element
@@ -53,11 +62,17 @@ export class ChartComponent implements OnInit, AfterViewInit {
     public storeService: StoreService,
     public stateService: TransactionService,
     public firebaseService: FirebaseService
-  ) {}
+  ) {
+    this.stateService.stateOptions$.subscribe((state) => {
+      this.selectedOptions = state;
+    });
+  }
 
   ngOnInit(): void {
     this.getAllTransactions();
     this.listDropdown();
+
+    console.log(this.selectedOptions, 'select');
 
     // Simulate loading
     setTimeout(() => {
@@ -68,17 +83,20 @@ export class ChartComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.waitForCanvas();
   }
-  
+
   // -------------------------------------------------------------------------------
   // NOTE Actions ------------------------------------------------------------------
   // -------------------------------------------------------------------------------
   async getAllTransactions() {
     try {
       let transactions = await this.firebaseService.getCollectionData('budget');
+      const selectedOpts = this?.selectedOptions?.name?.toLowerCase();
 
-      transactions.sort((a, b) => a['id'] - b['id']);
+      transactions?.sort((a, b) => a['id'] - b['id']);
 
-      this.allTransactions = transactions;
+      const payload = transactions?.filter((el) => el['type'] === selectedOpts);
+
+      this.allTransactions = payload;
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -97,10 +115,11 @@ export class ChartComponent implements OnInit, AfterViewInit {
   }
 
   public listDropdown(): void {
-    this.cities = [
-      { name: 'Expense', code: 'exp' },
-      { name: 'Income', code: 'inc' },
-    ];
+    this.options = initialStateOptions;
+  }
+
+  public handleSetOptions(updateValue: any) {
+    this.stateService.setStateDropdown(updateValue?.value);
   }
 
   public getFormattedAmount(amount: number): string {
@@ -132,9 +151,8 @@ export class ChartComponent implements OnInit, AfterViewInit {
           labels: labels,
           datasets: [
             {
-              // label: 'Series A',
               data: subsetData,
-              borderColor: 'rgba(75,192,192,1)',
+              borderColor: '#29756f',
               backgroundColor: 'rgba(75,192,192,0.2)',
               fill: true,
               tension: 0.4,

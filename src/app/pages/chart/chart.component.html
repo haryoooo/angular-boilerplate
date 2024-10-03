@@ -20,10 +20,11 @@
 
       <div class="header-end">
         <p-dropdown
-          [options]="cities"
-          [(ngModel)]="selectedCity"
+          [options]="options"
+          [(ngModel)]="selectedOptions"
           optionLabel="name"
           placeholder="Choose Type"
+          (onChange)="handleSetOptions($event)"
         />
       </div>
 

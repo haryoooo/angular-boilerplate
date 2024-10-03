@@ -4,6 +4,16 @@ import * as moment from 'moment';
 import { transactions } from 'src/app/example/transactions';
 import { FirebaseService } from './firebase.service';
 
+export interface OptionsDropdown {
+  name: string;
+  code: string;
+}
+
+export const initialStateDropdown = {
+  name: 'Expense',
+  code: 'exp',
+};
+
 export interface AddState {
   desc: string;
   amount: number;
@@ -31,12 +41,14 @@ export class TransactionService {
   };
 
   // Initial states with appropriate data types
+  private _stateOptions = new BehaviorSubject<OptionsDropdown>(initialStateDropdown);
   private _stateAdd = new BehaviorSubject<AddState>(initialState);
   private _stateTransactions = new BehaviorSubject<any>(transactions);
 
   // Expose observables to allow components to subscribe to state changes
   stateAdd$ = this._stateAdd.asObservable();
   stateTransactions$ = this._stateTransactions.asObservable();
+  stateOptions$ = this._stateOptions.asObservable();
 
   constructor(private firebaseService: FirebaseService) {}
 
@@ -46,8 +58,16 @@ export class TransactionService {
     this._stateAdd.next(newState);
   }
 
+  setStateDropdown(updatedValues: OptionsDropdown): void {
+    this._stateOptions.next(updatedValues);
+  }
+
   resetStateAdd(): void {
     this._stateAdd.next(this.initialState);
+  }
+
+  getStateDropdown(): OptionsDropdown {
+    return this._stateOptions.value;
   }
 
   getStateAdd(): AddState {
