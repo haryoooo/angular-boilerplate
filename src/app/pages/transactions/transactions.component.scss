@@ -144,6 +144,25 @@
   box-shadow: #3e7c78 0px 2px 6px;
 }
 
+/* Disabled button reusing the same styles */
+.btn-submit:disabled, .btn-disabled {
+  background-color: grey;
+  cursor: not-allowed;
+  box-shadow: none; /* Optional: remove the shadow for the disabled state */
+}
+
 .btn-submit:hover {
   transform: scale(1.03);
+}
+
+.custom-toast {
+  width: 20px;
+}
+
+.p-toast-top-right {
+  width: 20px; /* Adjust the margin */
+}
+
+.p-toast-message {
+  max-width: 100%; /* Ensure that the message takes up the full width */
 }

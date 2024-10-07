@@ -11,6 +11,7 @@ import {
   initialState,
   TransactionService,
 } from '@services/transaction.service';
+import { ToastModule } from 'primeng/toast';
 
 // Components
 import { ProgressBarComponent } from '@blocks/progress-bar/progress-bar.component';
@@ -19,13 +20,15 @@ import { transactions } from 'src/app/example/transactions';
 import * as moment from 'moment';
 import { formatMoney, parseMoney } from '@helpers/moneyFormatter.helper';
 import { FirebaseService } from '@services/firebase.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-transactions',
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.scss'],
   standalone: true,
-  imports: [PageLayoutComponent, NgIf, ProgressBarComponent, CommonModule],
+  imports: [PageLayoutComponent, NgIf, ProgressBarComponent, CommonModule, ToastModule],
+  providers: [MessageService],
 })
 export class TransactionsComponent implements OnInit {
   public transactions = transactions;
@@ -38,7 +41,8 @@ export class TransactionsComponent implements OnInit {
     public storeService: StoreService,
     public router: Router,
     public stateService: TransactionService,
-    public firebaseService: FirebaseService
+    public firebaseService: FirebaseService,
+    public messageService: MessageService
   ) {
     this.stateService.stateAdd$.subscribe((state) => {
       this.stateAdd = state;
@@ -48,7 +52,7 @@ export class TransactionsComponent implements OnInit {
   // NOTE Init ---------------------------------------------------------------------
   // -------------------------------------------------------------------------------
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.getDataTransaction();
 
     setTimeout((_) => {
@@ -65,6 +69,7 @@ export class TransactionsComponent implements OnInit {
       console.error('Error fetching data:', error);
     }
   }
+
   updateName(event: Event): void {
     this.stateAdd.desc = (event.target as HTMLInputElement).value;
   }
@@ -90,18 +95,33 @@ export class TransactionsComponent implements OnInit {
     return formatMoney(this.stateAdd.amount);
   }
 
-  submitTransaction(): void {
-    const newTransaction = {
-      id: this.stateTransaction.length + 1,
-      type: this.stateAdd.type,
-      date: moment(this.stateAdd.date).format('DD-MM-YYYY'),
-      desc: this.stateAdd.desc,
-      amount: this.stateAdd.amount,
-    };
+  isFormValid(): boolean {
+    const { desc, type, amount, date } = this.stateAdd;
 
-    this.stateService.setLatestTransactions(newTransaction);
-    this.stateService.resetStateAdd();
-    this.router.navigate(['home']);
+    // Ensure all required fields are filled
+    return desc && type && amount > 0 && date;
+  }
+
+  submitTransaction(): void {
+    // const newTransaction = {
+    //   id: this.stateTransaction.length + 1,
+    //   type: this.stateAdd.type,
+    //   date: moment(this.stateAdd.date).format('DD-MM-YYYY'),
+    //   desc: this.stateAdd.desc,
+    //   amount: this.stateAdd.amount,
+    // };
+
+    setTimeout(() => {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Success add transaction',
+      });
+    }, 1000);
+
+    // this.stateService.setLatestTransactions(newTransaction);
+    // this.stateService.resetStateAdd();
+    // this.router.navigate(['home']);
   }
   // -------------------------------------------------------------------------------
   // NOTE Actions ------------------------------------------------------------------

@@ -2,6 +2,11 @@
   <app-progress-bar *ngIf="storeService.isLoading()"></app-progress-bar>
 
   <ng-container *ngIf="!storeService.isLoading()">
+    <p-toast
+      position="top-center"
+      showTransformOptions="translateY(-50%)"
+      styleClass="custom-toast"
+    />
 
     <!-- Header Container -->
     <div class="header-container">
@@ -11,8 +16,10 @@
         alt="bg-header"
       />
       <div class="header__between">
-        <div class="cursor-pointer" 
-             (click)="this.router.navigateByUrl('home', { replaceUrl: true })">
+        <div
+          class="cursor-pointer"
+          (click)="this.router.navigateByUrl('home', { replaceUrl: true })"
+        >
           <img src="../../../assets/img/project/chevron-left.png" />
         </div>
         <div>
@@ -28,17 +35,35 @@
     <div class="content-container">
       <div>
         <h5 class="text-label">NAME</h5>
-        <input class="input-content" type="text" alt="desc" [value]="stateAdd.desc" (input)="updateName($event)" />
+        <input
+          class="input-content"
+          type="text"
+          alt="desc"
+          [value]="stateAdd.desc"
+          (input)="updateName($event)"
+        />
       </div>
       <div>
         <h5 class="text-label">TYPE</h5>
         <label class="option-type">
-          <input class="radio-input" type="radio" alt="radio-type-expense" [checked]="stateAdd.type === 'expense'" (change)="updateType('expense')"  />
+          <input
+            class="radio-input"
+            type="radio"
+            alt="radio-type-expense"
+            [checked]="stateAdd.type === 'expense'"
+            (change)="updateType('expense')"
+          />
           Expense
         </label>
 
         <label class="ml-2 option-type">
-          <input class="radio-input" type="radio" alt="radio-type-income" [checked]="stateAdd.type === 'income'" (change)="updateType('income')"  />
+          <input
+            class="radio-input"
+            type="radio"
+            alt="radio-type-income"
+            [checked]="stateAdd.type === 'income'"
+            (change)="updateType('income')"
+          />
           Income
         </label>
       </div>
@@ -46,18 +71,34 @@
         <h5 class="text-label">AMOUNT</h5>
         <div class="input-wrapper">
           <span class="currency-symbol">Rp.</span>
-          <input class="input-content-amount" type="text" alt="amount" [value]="getFormattedAmount()" (input)="updateAmount($event)" />
+          <input
+            class="input-content-amount"
+            type="text"
+            alt="amount"
+            [value]="getFormattedAmount()"
+            (input)="updateAmount($event)"
+          />
           <span class="clear-button" (click)="clearAmount()">Clear</span>
         </div>
       </div>
       <div>
         <h5 class="text-label">DATE</h5>
-        <input class="input-content" type="date" alt="date" [value]="stateAdd.date | date:'yyyy-MM-dd'" (input)="updateDate($event)"  />
+        <input
+          class="input-content"
+          type="date"
+          alt="date"
+          [value]="stateAdd.date | date : 'yyyy-MM-dd'"
+          (input)="updateDate($event)"
+        />
       </div>
 
-      <div class="btn-submit" (click)="submitTransaction()">
+      <button
+        [disabled]="!isFormValid()"
+        class="btn-submit"
+        (click)="submitTransaction()"
+      >
         Submit
-      </div>
+      </button>
     </div>
   </ng-container>
 </app-page-layout>
